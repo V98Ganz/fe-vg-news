@@ -26,14 +26,15 @@ class Articles extends Component {
                 {this.state.articles.map((article) => {
                     return (
                         <div
+                        className="article-card"
                         key={article.title}
                         >
                         <Link
                         to={`/articles/${article.article_id}`}
-                        style={{ textDecoration: 'none', display: 'block', }}
+                        style={{ textDecoration: 'none', }}
                         >
                         <div 
-                        className="article-card"
+                        className="article-card-inner"
                         >                            
                             <h3 className="card-text" >{article.title}</h3>
                         </div>

@@ -10,14 +10,12 @@ nav {
   position: sticky;
   top: 0;
 }
-
 .nav-item{
   color: aliceblue;
   margin: 1% 1%;
   text-decoration: none;
   float: left;
 }
-
 .nav-user {
   float: right;
   margin: 1% 1%;
@@ -28,28 +26,105 @@ nav {
 .articles-grid{
   display: flex;
   flex-direction: column;
-  grid-template-areas: 'noContent card no noContent';
+  grid-template-columns: 1fr repeat(2, minmax(auto, 25em)) 1fr;
 }
-
 .article-card {
+  grid-column: 2/4;
+}
+.article-card-inner {
   border: solid #463058;
-  /* margin: 2% 1%; */
-  box-sizing: inherit;
-  padding: 5%;
+  padding: 10%;
   color: #240507 ;
   background-color: #e3b98c;
 }
 
+.topic-grid {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+}
+.topic-card {
+  border: solid;
+  grid-column: 1/2;
+  margin: 5%;
+  background-color: #e3b98c;
+}
+.article-card-topic-page{
+  padding: 10%;
+  margin-top: 0;
+}
+.article-card-topic-page{
+  grid-row-start: 1;
+  grid-row-end: 5;
+  grid-column: 2/3;
+  padding: 2% 7%;
+  color: #240507;
+  list-style: none;
+}
 
-/* @media (max-width: 600px) {
+.user-page-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.user-page-info {
+  grid-column: 1;
+  border: solid;
+  border-radius: 3%;
+  margin: 10%;
+  padding: 5% 0;
+  background-color: #e3b98c;
+}
+.user-page-comments {
+  grid-column: 2;
+  border: solid;
+  margin: 2% 5%;
+  background-color: #e3b98c;
+}
+.user-page-articles {
+  grid-column: 3;
+  border: solid;
+  margin: 2% 5%;
+  background-color: #e3b98c;
+}
+.user-page-img {
+  margin: 5% auto;
+  border: solid;
+  border-radius: 2rem;
+}
+
+@media (max-width: 600px) {
   .nav-item, .nav-user {
     margin: 5%;
   }
+  .topic-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .article-card-topic-page {
+    padding: inherit;
+  }
+  .topic-card {
+    margin: 1%;
+  }
+  .user-page-grid {
+    display: flex;
+    flex-direction: column;
+
+  }
+  .user-page-img {
+    display: block;
+    width: 70%;
+    margin: 5% auto;
+    border: solid;
+    border-radius: 2rem;
+  }
 }
 
-@media (min-width: 600px) {
+@media (min-width: 600px) and (max-width: 1199px) {
   .article-card {
     margin: 2% 15%;
+  }
+  .article-card-topic-page {
+    padding: 2%;
   }
 }
 
@@ -63,4 +138,4 @@ nav {
   .article-card {
     margin: 2% 30%;
   }
-} */
+}

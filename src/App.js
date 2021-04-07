@@ -3,6 +3,7 @@ import React from "react";
 import './App.css';
 import Articles from "./components/Articles";
 import Nav from './components/Nav';
+import SingleArticle from "./components/SingleArticle";
 import Topics from "./components/Topics";
 import User from "./components/User";
 
@@ -22,7 +23,8 @@ class App extends React.Component {
         <Router>
         <Articles path="/" />
         <Topics path="/topics" />
-        <User path={`/user/${user}`} /> 
+        <User userName={this.state.user.username} path={`/user/${user}`} /> 
+        <SingleArticle path="articles/:article_id" />
         </Router>
       </div>
     );
