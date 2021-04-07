@@ -20,7 +20,6 @@ class User extends Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <div className="user-page-grid" >
                 <div className="user-page-info" >

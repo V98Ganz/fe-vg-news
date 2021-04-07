@@ -24,3 +24,13 @@ export const fetchUser = async (userName) => {
     const { data } = await request.get(`/users/${userName}`);
     return data.user;
 }
+
+export const fetchArticle = async (id) => {
+    const { data } = await request.get(`/articles/${id}`);
+    return data.article;
+}
+
+export const fetchComments = async (id) => {
+    const { data } = await request.get(`/articles/${id}/comments`);
+    return data.comments;
+}

@@ -23,7 +23,7 @@ class App extends React.Component {
         <Router>
         <Articles path="/" />
         <Topics path="/topics" />
-        <User userName={this.state.user.username} path={`/user/${user}`} /> 
+        <User userName={user} path={`/user/${user}`} /> 
         <SingleArticle path="articles/:article_id" />
         </Router>
       </div>

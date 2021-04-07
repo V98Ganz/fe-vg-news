@@ -47,6 +47,7 @@ nav {
   grid-column: 1/2;
   margin: 5%;
   background-color: #e3b98c;
+  cursor: pointer;
 }
 .article-card-topic-page{
   padding: 10%;
@@ -89,6 +90,30 @@ nav {
   margin: 5% auto;
   border: solid;
   border-radius: 2rem;
+}
+
+.single-article-page-article {
+  border: solid;
+  margin: 3%;
+}
+.single-article-stats {
+  border: solid;
+  display: flex;
+}
+.article-stats-grid-item {
+  margin: 1%;
+}
+
+.comment-article-container {
+  border: solid;
+  margin: 3%;
+}
+.comment-article-list {
+  list-style: none;
+}
+.comment-article-list-item {
+  border: solid;
+  margin: 2%;
 }
 
 @media (max-width: 600px) {
