@@ -7,21 +7,29 @@ import Votes from "./Votes";
 class SingleArticle extends Component {
   state = {
     article: {},
+    comments: [],
     isLoading: true,
   };
 
-  getArticle = () => {
-    api.fetchArticle(this.props.article_id).then((article) => {
-      this.setState({ article, isLoading: false });
+  componentDidMount() {
+    Promise.all([
+      api.fetchArticle(this.props.article_id),
+      api.fetchComments(this.props.article_id),
+    ]).then(([article, comments]) => {
+      this.setState({ article, comments, isLoading: false });
+    });
+  }
+
+  addNewComment = (newComment) => {
+    this.setState((currState) => {
+      return {
+        comments: [newComment, ...currState.comments],
+      };
     });
   };
 
-  componentDidMount() {
-    const { article } = this.props;
-    this.getArticle(article);
-  }
-
   render() {
+    console.log(this.state);
     const {
       author,
       body,
@@ -46,8 +54,12 @@ class SingleArticle extends Component {
             <Votes />
           </div>
         </div>
-        <Comments article_id={this.props.article_id} />
-        <NewComment />
+        <NewComment
+          username={this.props.userName}
+          article_id={this.props.article_id}
+          addNewComment={this.addNewComment}
+        />
+        <Comments comments={this.state.comments} />
       </section>
     );
   }

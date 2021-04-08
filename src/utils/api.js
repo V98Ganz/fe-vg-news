@@ -34,3 +34,8 @@ export const fetchComments = async (id) => {
     const { data } = await request.get(`/articles/${id}/comments`);
     return data.comments;
 }
+
+export const postComment = async (id, username, body) => {
+    const { data } = await request.post(`/articles/${id}/comments`, {username, body});
+    return data.comment
+}

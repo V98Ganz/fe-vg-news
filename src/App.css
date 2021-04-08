@@ -10,7 +10,7 @@ nav {
   position: sticky;
   top: 0;
 }
-.nav-item{
+.nav-item {
   color: aliceblue;
   margin: 1% 1%;
   text-decoration: none;
@@ -23,7 +23,7 @@ nav {
   color: aliceblue;
 }
 
-.articles-grid{
+.articles-grid {
   display: flex;
   flex-direction: column;
   grid-template-columns: 1fr repeat(2, minmax(auto, 25em)) 1fr;
@@ -34,7 +34,7 @@ nav {
 .article-card-inner {
   border: solid #463058;
   padding: 10%;
-  color: #240507 ;
+  color: #240507;
   background-color: #e3b98c;
 }
 
@@ -49,11 +49,11 @@ nav {
   background-color: #e3b98c;
   cursor: pointer;
 }
-.article-card-topic-page{
+.article-card-topic-page {
   padding: 10%;
   margin-top: 0;
 }
-.article-card-topic-page{
+.article-card-topic-page {
   grid-row-start: 1;
   grid-row-end: 5;
   grid-column: 2/3;
@@ -95,6 +95,7 @@ nav {
 .single-article-page-article {
   border: solid;
   margin: 3%;
+  background-color: #e3b98c;
 }
 .single-article-stats {
   border: solid;
@@ -107,6 +108,7 @@ nav {
 .comment-article-container {
   border: solid;
   margin: 3%;
+  background-color: #e3b98c;
 }
 .comment-article-list {
   list-style: none;
@@ -114,10 +116,23 @@ nav {
 .comment-article-list-item {
   border: solid;
   margin: 2%;
+  background-color: #f5dbc2;
+}
+.new-comment-form {
+  border: solid;
+  margin: 3%;
+  background-color: #e3b98c;
+}
+.comment {
+  width: 40%;
+  height: 100px;
+  padding: 10px;
+  background-color: #e4c8aa;;
 }
 
 @media (max-width: 600px) {
-  .nav-item, .nav-user {
+  .nav-item,
+  .nav-user {
     margin: 5%;
   }
   .topic-grid {
@@ -133,7 +148,6 @@ nav {
   .user-page-grid {
     display: flex;
     flex-direction: column;
-
   }
   .user-page-img {
     display: block;

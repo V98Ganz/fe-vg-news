@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
 import { Link } from "@reach/router";
+import ArticleCard from "./ArticleCard";
 
 class Articles extends Component {
   state = {
@@ -23,15 +24,29 @@ class Articles extends Component {
     return (
       <div className="articles-grid">
         {this.state.articles.map((article) => {
+          const {
+            title,
+            comment_count,
+            author,
+            created_at,
+            topic,
+            votes,
+            article_id,
+          } = article;
           return (
-            <div className="article-card" key={article.title}>
+            <div className="article-card" key={title}>
               <Link
-                to={`/articles/${article.article_id}`}
+                to={`/articles/${article_id}`}
                 style={{ textDecoration: "none" }}
               >
-                <div className="article-card-inner">
-                  <h3 className="card-text">{article.title}</h3>
-                </div>
+                <ArticleCard
+                  title={title}
+                  author={author}
+                  comment_count={comment_count}
+                  created_at={created_at}
+                  topic={topic}
+                  votes={votes}
+                />
               </Link>
             </div>
           );
