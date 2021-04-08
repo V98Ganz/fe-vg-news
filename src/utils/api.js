@@ -39,3 +39,7 @@ export const postComment = async (id, username, body) => {
     const { data } = await request.post(`/articles/${id}/comments`, {username, body});
     return data.comment
 }
+
+export const deleteComment = (id) => {
+    return request.delete(`/comments/${id}`)
+}

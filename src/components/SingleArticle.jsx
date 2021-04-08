@@ -28,8 +28,19 @@ class SingleArticle extends Component {
     });
   };
 
+  deleteComment = (id) => {
+    api.deleteComment(id)
+    const item = this.state.comments.findIndex((comment) => {
+     return comment.comment_id === id
+    })
+    this.setState((currState) => {
+      return {
+        comments: [currState.comments.splice(item, 1), ...currState.comments]
+      }
+    })
+  };
+
   render() {
-    console.log(this.state);
     const {
       author,
       body,
@@ -59,7 +70,11 @@ class SingleArticle extends Component {
           article_id={this.props.article_id}
           addNewComment={this.addNewComment}
         />
-        <Comments comments={this.state.comments} />
+        <Comments
+          deleteComment={this.deleteComment}
+          username={this.props.userName}
+          comments={this.state.comments}
+        />
       </section>
     );
   }
