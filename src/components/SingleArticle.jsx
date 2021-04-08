@@ -29,15 +29,15 @@ class SingleArticle extends Component {
   };
 
   deleteComment = (id) => {
-    api.deleteComment(id)
+    api.deleteComment(id);
     const item = this.state.comments.findIndex((comment) => {
-     return comment.comment_id === id
-    })
+      return comment.comment_id === id;
+    });
     this.setState((currState) => {
       return {
-        comments: [currState.comments.splice(item, 1), ...currState.comments]
-      }
-    })
+        comments: [currState.comments.splice(item, 1), ...currState.comments],
+      };
+    });
   };
 
   render() {
@@ -48,6 +48,8 @@ class SingleArticle extends Component {
       title,
       comment_count,
       topic,
+      votes,
+      article_id,
     } = this.state.article;
     return (
       <section className="single-article-page-grid">
@@ -62,7 +64,7 @@ class SingleArticle extends Component {
             <p className="article-stats-grid-item">Posted by {author}</p>
             <p className="article-stats-grid-item">at {created_at}</p>
             <p className="article-stats-grid-item">{comment_count} Comments</p>
-            <Votes />
+            <Votes id={article_id} paraPoint={"articles"} votes={votes} />
           </div>
         </div>
         <NewComment

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as api from "../utils/api";
 import { Link } from "@reach/router";
 import ArticleCard from "./ArticleCard";
+import Votes from "./Votes";
 
 class Topics extends Component {
   state = {
@@ -72,8 +73,10 @@ class Topics extends Component {
                     created_at={created_at}
                     topic={topic}
                     votes={votes}
+                    article_id={article_id}
                   />
                 </Link>
+                <Votes id={article_id} paraPoint={"articles"} votes={votes} />
               </li>
             );
           })}

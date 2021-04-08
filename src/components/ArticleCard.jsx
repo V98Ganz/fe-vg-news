@@ -1,5 +1,4 @@
 import React from "react";
-import Votes from "./Votes";
 
 const ArticleCard = ({
   title,
@@ -7,7 +6,6 @@ const ArticleCard = ({
   comment_count,
   created_at,
   topic,
-  votes,
 }) => {
   return (
     <div className="article-card-inner">
@@ -18,8 +16,7 @@ const ArticleCard = ({
       </div>
       <h3 className="card-text">{title}</h3>
       <div className="article-card-lower-info">
-          <p>{comment_count} comments</p>
-        <Votes />
+        <p>{comment_count} comments</p>
       </div>
     </div>
   );

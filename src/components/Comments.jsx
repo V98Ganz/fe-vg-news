@@ -1,4 +1,5 @@
 import UserOptions from "./UserOptions";
+import Votes from "./Votes";
 
 const Comments = (props) => {
   return (
@@ -21,7 +22,7 @@ const Comments = (props) => {
               />
               <p>{comment.body}</p>
               <p>{comment.created_at}</p>
-              <p>{comment.votes}</p>
+              <Votes id={comment.comment_id} paraPoint={"comments"} votes={comment.votes} />
             </li>
           );
         })}
