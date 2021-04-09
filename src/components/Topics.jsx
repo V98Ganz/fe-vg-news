@@ -62,7 +62,8 @@ class Topics extends Component {
             return article.article_id === global.globalId;
           });
           this.setState((currState) => {
-            this.state.articles[atThisId].votes =
+            const strawState = this.state
+              strawState.articles[atThisId].votes =
               currState.articles[atThisId].votes - global.globalVotes;
             return {
               articles: currState.articles,
