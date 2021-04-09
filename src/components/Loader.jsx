@@ -2,9 +2,9 @@ import React from 'react';
 
 const Loader = () => {
     return (
-        <div>
+        <main>
             <h2>Page is Loading</h2>
-        </div>
+        </main>
     );
 };
 

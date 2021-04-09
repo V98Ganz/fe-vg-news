@@ -2,11 +2,11 @@ import React from 'react';
 
 const ErrorPage = ({ status, msg }) => {
     return (
-        <div>
+        <main>
             <p>
                 {status} - {msg}
             </p>
-        </div>
+        </main>
     );
 };
 

@@ -4,6 +4,8 @@ import { Link } from "@reach/router";
 import ArticleCard from "./ArticleCard";
 import Votes from "./Votes";
 import ArticlesSorter from "./ArticlesSorter";
+import Loader from "./Loader";
+import ErrorPage from "./ErrorPage";
 
 class Topics extends Component {
   state = {
@@ -12,11 +14,15 @@ class Topics extends Component {
     topic: "",
     sort_by: "",
     isLoading: true,
+    err: null,
   };
 
   getTopics = () => {
     api.fetchTopics().then((topics) => {
       this.setState({ topics, isLoading: false });
+    })
+    .catch((err) => {
+      this.setState({ err, isLoading: false });
     });
   };
 
@@ -32,13 +38,15 @@ class Topics extends Component {
     if (filteredVariable !== this.state.topic) {
       api.fetchArticles({ topic: filteredVariable }).then((articles) => {
         this.setState({ articles });
+      })
+      .catch((err) => {
+        this.setState({ err, isLoading: false });
       });
     }
   };
 
   componentDidMount() {
-    const { topics } = this.props;
-    this.getTopics(topics);
+    this.getTopics();
   }
 
   articleSorter = (event) => {
@@ -49,24 +57,34 @@ class Topics extends Component {
       api.fetchArticles({ topic, name }).then((articles) => {
         this.setState({ articles });
 
-
-        // if (global.globalId) {
-        //   const atThisId = this.state.articles.findIndex((article) => {
-        //     return article.article_id === global.globalId;
-        //   });
-        //   this.setState((currState) => {
-        //     this.state.articles[atThisId].votes =
-        //       currState.articles[atThisId].votes - global.globalVotes;
-        //     return {
-        //       articles: currState.articles,
-        //     };
-        //   });
-        // }
+        if (global.globalId) {
+          const atThisId = this.state.articles.findIndex((article) => {
+            return article.article_id === global.globalId;
+          });
+          this.setState((currState) => {
+            this.state.articles[atThisId].votes =
+              currState.articles[atThisId].votes - global.globalVotes;
+            return {
+              articles: currState.articles,
+            };
+          });
+        }
+      })
+      .catch((err) => {
+        this.setState({ err, isLoading: false });
       });
     }
   };
 
   render() {
+    const { isLoading, err } = this.state;
+    if (isLoading) {
+      return <Loader />;
+    }
+    if (err) {
+      const { response } = err;
+      return <ErrorPage status={response.status} msg={response.data.msg} />;
+    }
     return (
       <div className="topic-grid">
         {this.state.topics.map((topic) => {
@@ -85,11 +103,6 @@ class Topics extends Component {
           <ArticlesSorter articleSorter={this.articleSorter} />
           {this.state.articles.map((article) => {
             const {
-              title,
-              comment_count,
-              author,
-              created_at,
-              topic,
               votes,
               article_id,
             } = article;
@@ -100,19 +113,10 @@ class Topics extends Component {
                   style={{ textDecoration: "none" }}
                 >
                   <ArticleCard
-                    title={title}
-                    author={author}
-                    comment_count={comment_count}
-                    created_at={created_at}
-                    topic={topic}
-                    article_id={article_id}
+                    article={article}
                   />
                 </Link>
-                <Votes
-                  id={article_id}
-                  paraPoint={"articles"}
-                  votes={votes}
-                />
+                <Votes id={article_id} paraPoint={"articles"} votes={votes} />
               </li>
             );
           })}

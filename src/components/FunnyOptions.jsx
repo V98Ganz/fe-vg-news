@@ -9,7 +9,7 @@ import {
 
 const FunnyOptions = () => {
   return (
-    <div>
+    <section>
       <Menu>
         <MenuButton>
           Report <span aria-hidden>▾</span>
@@ -19,7 +19,7 @@ const FunnyOptions = () => {
           <MenuItem onSelect={() => {}} ></MenuItem>
         </MenuList>
       </Menu>
-    </div>
+    </section>
   );
 };
 

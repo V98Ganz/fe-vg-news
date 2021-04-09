@@ -1,11 +1,7 @@
 import React from "react";
 
 const ArticleCard = ({
-  title,
-  author,
-  comment_count,
-  created_at,
-  topic,
+  article: { title, author, comment_count, created_at, topic },
 }) => {
   return (
     <div className="article-card-inner">

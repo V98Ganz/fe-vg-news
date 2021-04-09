@@ -12,7 +12,7 @@ class Articles extends Component {
     articles: [],
     sort_by: "",
     isLoading: true,
-    err: null
+    err: null,
   };
 
   getArticles = () => {
@@ -27,16 +27,33 @@ class Articles extends Component {
   };
 
   componentDidMount() {
-    const { articles } = this.props;
-    this.getArticles(articles);
+    this.getArticles();
   }
 
   articleSorter = (event) => {
     const name = event.target.name;
     if (name !== this.state.sort_by) {
-      api.fetchArticles({ name }).then((articles) => {
-        this.setState({ articles });
-      });
+      api
+        .fetchArticles({ name })
+        .then((articles) => {
+          this.setState({ articles });
+
+          if (global.globalId) {
+            const atThisId = this.state.articles.findIndex((article) => {
+              return article.article_id === global.globalId;
+            });
+            this.setState((currState) => {
+              this.state.articles[atThisId].votes =
+                currState.articles[atThisId].votes - global.globalVotes;
+              return {
+                articles: currState.articles,
+              };
+            });
+          }
+        })
+        .catch((err) => {
+          this.setState({ err, isLoading: false });
+        });
     }
   };
 
@@ -47,44 +64,26 @@ class Articles extends Component {
     }
     if (err) {
       const { response } = err;
-      return (
-        <ErrorPage status={response.status} msg={response.data.msg} />
-      )
+      return <ErrorPage status={response.status} msg={response.data.msg} />;
     }
     return (
-      <div className="articles-grid">
+      <main className="articles-grid">
         <ArticlesSorter articleSorter={this.articleSorter} />
         {this.state.articles.map((article) => {
-          const {
-            title,
-            comment_count,
-            author,
-            created_at,
-            topic,
-            votes,
-            article_id,
-          } = article;
+          const { title, votes, article_id } = article;
           return (
             <div className="article-card" key={title}>
               <Link
                 to={`/articles/${article_id}`}
                 style={{ textDecoration: "none" }}
               >
-                <ArticleCard
-                  title={title}
-                  author={author}
-                  comment_count={comment_count}
-                  created_at={created_at}
-                  topic={topic}
-                  votes={votes}
-                  article_id={article_id}
-                />
+                <ArticleCard article={article} />
               </Link>
               <Votes id={article_id} paraPoint={"articles"} votes={votes} />
             </div>
           );
         })}
-      </div>
+      </main>
     );
   }
 }

@@ -3,12 +3,15 @@ import * as api from "../utils/api";
 import Comments from "./Comments";
 import NewComment from "./NewComment";
 import Votes from "./Votes";
+import Loader from "./Loader";
+import ErrorPage from "./ErrorPage";
 
 class SingleArticle extends Component {
   state = {
     article: {},
     comments: [],
     isLoading: true,
+    err: null,
   };
 
   componentDidMount() {
@@ -17,6 +20,9 @@ class SingleArticle extends Component {
       api.fetchComments(this.props.article_id),
     ]).then(([article, comments]) => {
       this.setState({ article, comments, isLoading: false });
+    })
+    .catch((err) => {
+      this.setState({ err, isLoading: false });
     });
   }
 
@@ -38,10 +44,21 @@ class SingleArticle extends Component {
       return {
         comments:  currState.comments
       };
+    })
+    .catch((err) => {
+      this.setState({ err, isLoading: false });
     });
   };
 
   render() {
+    const { isLoading, err } = this.state;
+    if (isLoading) {
+      return <Loader />;
+    }
+    if (err) {
+      const { response } = err;
+      return <ErrorPage status={response.status} msg={response.data.msg} />;
+    }
     const {
       author,
       body,
@@ -53,7 +70,7 @@ class SingleArticle extends Component {
       article_id,
     } = this.state.article;
     return (
-      <section className="single-article-page-grid">
+      <main className="single-article-page-grid">
         <div className="single-article-page-article">
           <div>
             <h2>{title}</h2>
@@ -78,7 +95,7 @@ class SingleArticle extends Component {
           username={this.props.userName}
           comments={this.state.comments}
         />
-      </section>
+      </main>
     );
   }
 }
