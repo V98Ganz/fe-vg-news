@@ -29,13 +29,14 @@ class SingleArticle extends Component {
   };
 
   deleteComment = (id) => {
-    api.deleteComment(id);
+    api.deleteComment(id)
     const item = this.state.comments.findIndex((comment) => {
       return comment.comment_id === id;
     });
+    this.state.comments.splice(item, 1)
     this.setState((currState) => {
       return {
-        comments: [currState.comments.splice(item, 1), ...currState.comments],
+        comments:  currState.comments
       };
     });
   };
