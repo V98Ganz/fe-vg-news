@@ -2,6 +2,7 @@ import { Router } from "@reach/router";
 import React from "react";
 import './App.css';
 import Articles from "./components/Articles";
+import ErrorPage from "./components/ErrorPage";
 import Nav from './components/Nav';
 import SingleArticle from "./components/SingleArticle";
 import Topics from "./components/Topics";
@@ -25,6 +26,7 @@ class App extends React.Component {
         <Topics path="/topics" />
         <User userName={user} path={`/user/${user}`} /> 
         <SingleArticle userName={user} path="articles/:article_id" />
+        <ErrorPage default status={404} msg={"Path not found..."} />
         </Router>
       </div>
     );

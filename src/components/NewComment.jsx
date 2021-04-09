@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import * as api from "../utils/api";
+import ErrorPage from "./ErrorPage";
 
 class NewComment extends Component {
   state = {
     username: "",
     body: "",
+    err: null,
   };
 
   handleChange = (event) => {
@@ -15,18 +17,25 @@ class NewComment extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     const { username, body } = this.state;
-    api
-      .postComment(this.props.article_id, username, body)
-      .then((newComment) => {
-        this.setState({ body: "" });
-        this.props.addNewComment(newComment);
-      })
-      .catch((err) => {
-        console.log(err.response.data)
-      })
+    if (body) {
+      api
+        .postComment(this.props.article_id, username, body)
+        .then((newComment) => {
+          this.setState({ body: "" });
+          this.props.addNewComment(newComment);
+        })
+        .catch((err) => {
+          this.setState({ err });
+        });
+    }
   };
 
   render() {
+    const { err } = this.state;
+    if (err) {
+      const { response } = err;
+      return <ErrorPage status={response.status} msg={response.data.msg} />;
+    }
     return (
       <div className="new-comment-form">
         <form onSubmit={this.handleSubmit}>

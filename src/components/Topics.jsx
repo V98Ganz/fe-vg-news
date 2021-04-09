@@ -3,11 +3,14 @@ import * as api from "../utils/api";
 import { Link } from "@reach/router";
 import ArticleCard from "./ArticleCard";
 import Votes from "./Votes";
+import ArticlesSorter from "./ArticlesSorter";
 
 class Topics extends Component {
   state = {
     topics: [],
     articles: [],
+    topic: "",
+    sort_by: "",
     isLoading: true,
   };
 
@@ -17,22 +20,51 @@ class Topics extends Component {
     });
   };
 
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(event) {
+  handleClick = (event) => {
     const filteredVariable = event.target.id;
-    api.fetchArticles({ topic: filteredVariable }).then((articles) => {
-      this.setState({ articles });
+    this.setState((currState) => {
+      if (filteredVariable !== currState.topic) {
+        return {
+          topic: filteredVariable,
+        };
+      }
     });
-  }
+    if (filteredVariable !== this.state.topic) {
+      api.fetchArticles({ topic: filteredVariable }).then((articles) => {
+        this.setState({ articles });
+      });
+    }
+  };
 
   componentDidMount() {
     const { topics } = this.props;
     this.getTopics(topics);
   }
+
+  articleSorter = (event) => {
+    const name = event.target.name;
+    if (name !== this.state.sort_by) {
+      const { topic } = this.state;
+      this.setState({ sort_by: name });
+      api.fetchArticles({ topic, name }).then((articles) => {
+        this.setState({ articles });
+
+
+        // if (global.globalId) {
+        //   const atThisId = this.state.articles.findIndex((article) => {
+        //     return article.article_id === global.globalId;
+        //   });
+        //   this.setState((currState) => {
+        //     this.state.articles[atThisId].votes =
+        //       currState.articles[atThisId].votes - global.globalVotes;
+        //     return {
+        //       articles: currState.articles,
+        //     };
+        //   });
+        // }
+      });
+    }
+  };
 
   render() {
     return (
@@ -50,6 +82,7 @@ class Topics extends Component {
           );
         })}
         <ul className="article-card-topic-page">
+          <ArticlesSorter articleSorter={this.articleSorter} />
           {this.state.articles.map((article) => {
             const {
               title,
@@ -72,11 +105,14 @@ class Topics extends Component {
                     comment_count={comment_count}
                     created_at={created_at}
                     topic={topic}
-                    votes={votes}
                     article_id={article_id}
                   />
                 </Link>
-                <Votes id={article_id} paraPoint={"articles"} votes={votes} />
+                <Votes
+                  id={article_id}
+                  paraPoint={"articles"}
+                  votes={votes}
+                />
               </li>
             );
           })}

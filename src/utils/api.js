@@ -7,8 +7,22 @@ const request = axios.create({
 export const fetchArticles = async (queries) => {
   if (queries) {
     const { topic } = queries;
-    const { data } = await request.get(`/articles?topic=${topic}`);
-    return data.articles;
+    if (queries.name && topic) {
+      const name = queries.name;
+      const { data } = await request.get(
+        `/articles?topic=${topic}&sort_by=${name}`
+      );
+      return data.articles;
+    } if (queries.name) {
+      const name = queries.name;
+      const { data } = await request.get(
+        `/articles?sort_by=${name}`
+      );
+      return data.articles;
+    } else {
+      const { data } = await request.get(`/articles?topic=${topic}`);
+      return data.articles;
+    }
   } else {
     const { data } = await request.get("/articles");
     return data.articles;
@@ -48,7 +62,8 @@ export const deleteComment = (id) => {
 };
 
 export const patchVotes = async (paraPoint, id, increment) => {
-  const { data } = await request.patch(`/${paraPoint}/${id}`, { inc_votes: increment });
-  console.log('hey')
-  return data.comment || data.article
+  const { data } = await request.patch(`/${paraPoint}/${id}`, {
+    inc_votes: increment,
+  });
+  return data.comment || data.article;
 };

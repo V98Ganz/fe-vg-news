@@ -8,17 +8,18 @@ class Votes extends Component {
 
   updateVotes = (event) => {
     const { id } = this.props;
+    // global.globalId = id;
       api.patchVotes(event.target.id, id, event.target.name*1).then(() => {
         this.setState((currState) => {
           return {
             voteChange: currState.voteChange + event.target.name*1
           }
         })
+        // global.globalVotes = this.state.voteChange;
       })
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
         <button

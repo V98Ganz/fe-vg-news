@@ -3,17 +3,27 @@ import * as api from "../utils/api";
 import { Link } from "@reach/router";
 import ArticleCard from "./ArticleCard";
 import Votes from "./Votes";
+import ArticlesSorter from "./ArticlesSorter";
+import Loader from "./Loader";
+import ErrorPage from "./ErrorPage";
 
 class Articles extends Component {
   state = {
     articles: [],
+    sort_by: "",
     isLoading: true,
+    err: null
   };
 
   getArticles = () => {
-    api.fetchArticles().then((articles) => {
-      this.setState({ articles, isLoading: false });
-    });
+    api
+      .fetchArticles()
+      .then((articles) => {
+        this.setState({ articles, isLoading: false });
+      })
+      .catch((err) => {
+        this.setState({ err, isLoading: false });
+      });
   };
 
   componentDidMount() {
@@ -21,9 +31,29 @@ class Articles extends Component {
     this.getArticles(articles);
   }
 
+  articleSorter = (event) => {
+    const name = event.target.name;
+    if (name !== this.state.sort_by) {
+      api.fetchArticles({ name }).then((articles) => {
+        this.setState({ articles });
+      });
+    }
+  };
+
   render() {
+    const { isLoading, err } = this.state;
+    if (isLoading) {
+      return <Loader />;
+    }
+    if (err) {
+      const { response } = err;
+      return (
+        <ErrorPage status={response.status} msg={response.data.msg} />
+      )
+    }
     return (
       <div className="articles-grid">
+        <ArticlesSorter articleSorter={this.articleSorter} />
         {this.state.articles.map((article) => {
           const {
             title,
