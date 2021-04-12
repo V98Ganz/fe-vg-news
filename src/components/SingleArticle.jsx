@@ -18,12 +18,13 @@ class SingleArticle extends Component {
     Promise.all([
       api.fetchArticle(this.props.article_id),
       api.fetchComments(this.props.article_id),
-    ]).then(([article, comments]) => {
-      this.setState({ article, comments, isLoading: false });
-    })
-    .catch((err) => {
-      this.setState({ err, isLoading: false });
-    });
+    ])
+      .then(([article, comments]) => {
+        this.setState({ article, comments, isLoading: false });
+      })
+      .catch((err) => {
+        this.setState({ err, isLoading: false });
+      });
   }
 
   addNewComment = (newComment) => {
@@ -35,19 +36,19 @@ class SingleArticle extends Component {
   };
 
   deleteComment = (id) => {
-    api.deleteComment(id)
+    api.deleteComment(id);
     const item = this.state.comments.findIndex((comment) => {
       return comment.comment_id === id;
     });
-    this.state.comments.splice(item, 1)
+    this.state.comments.splice(item, 1);
     this.setState((currState) => {
       return {
-        comments:  currState.comments
+        comments: currState.comments,
       };
-    })
-    .catch((err) => {
-      this.setState({ err, isLoading: false });
     });
+    // .catch((err) => {
+    //   this.setState({ err, isLoading: false });
+    // });
   };
 
   render() {
@@ -72,17 +73,24 @@ class SingleArticle extends Component {
     return (
       <main className="single-article-page-grid">
         <div className="single-article-page-article">
-          <div>
+          <div className="single-article-page-article-title">
+            <Votes id={article_id} paraPoint={"articles"} votes={votes} />
+            <div className="single-article-page-article-title-right" >
+            <p>
+              <b>{topic}</b>
+            </p>
             <h2>{title}</h2>
-            <p>{topic}</p>
+            </div>
           </div>
+
+          <div className="single-article-page-article-body" >
           <p>{body}</p>
+          </div>
 
           <div className="single-article-stats">
             <p className="article-stats-grid-item">Posted by {author}</p>
             <p className="article-stats-grid-item">at {created_at}</p>
             <p className="article-stats-grid-item">{comment_count} Comments</p>
-            <Votes id={article_id} paraPoint={"articles"} votes={votes} />
           </div>
         </div>
         <NewComment

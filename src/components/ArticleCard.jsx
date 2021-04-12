@@ -10,7 +10,9 @@ const ArticleCard = ({
           <b>{topic}</b> | posted by <em>{author}</em> at {created_at}
         </p>
       </div>
-      <h3 className="card-text">{title}</h3>
+      <div className="card-text" >
+      <h3 >{title}</h3>
+      </div>
       <div className="article-card-lower-info">
         <p>{comment_count} comments</p>
       </div>

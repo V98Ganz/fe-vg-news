@@ -39,7 +39,6 @@ class NewComment extends Component {
     return (
       <div className="new-comment-form">
         <form onSubmit={this.handleSubmit}>
-          <h4>Comments</h4>
           <h3>Join the conversation</h3>
           <label htmlFor="body">
             Comment as <em>{this.props.username}</em>

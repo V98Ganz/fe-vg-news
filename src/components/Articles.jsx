@@ -33,24 +33,11 @@ class Articles extends Component {
   articleSorter = (event) => {
     const name = event.target.name;
     if (name !== this.state.sort_by) {
+      this.setState({ isLoading: true })
       api
         .fetchArticles({ name })
         .then((articles) => {
-          this.setState({ articles });
-
-          if (global.globalId) {
-            const atThisId = this.state.articles.findIndex((article) => {
-              return article.article_id === global.globalId;
-            });
-            this.setState((currState) => {
-              const strawState = this.state
-              strawState.articles[atThisId].votes =
-                currState.articles[atThisId].votes - global.globalVotes;
-              return {
-                articles: currState.articles,
-              };
-            });
-          }
+          this.setState({ articles, isLoading: false });
         })
         .catch((err) => {
           this.setState({ err, isLoading: false });
@@ -74,13 +61,13 @@ class Articles extends Component {
           const { title, votes, article_id } = article;
           return (
             <div className="article-card" key={title}>
+              <Votes id={article_id} paraPoint={"articles"} votes={votes} />
               <Link
                 to={`/articles/${article_id}`}
                 style={{ textDecoration: "none" }}
               >
                 <ArticleCard article={article} />
               </Link>
-              <Votes id={article_id} paraPoint={"articles"} votes={votes} />
             </div>
           );
         })}

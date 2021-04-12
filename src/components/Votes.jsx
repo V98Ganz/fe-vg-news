@@ -31,16 +31,18 @@ class Votes extends Component {
       return <ErrorPage status={response.status} msg={response.data.msg} />;
     }
     return (
-      <section>
+      <section className="articles-voter" >
         <button
+        className="article-voter-button"
           id={this.props.paraPoint}
           name={'1'}
           onClick={this.updateVotes}
         >
           Up
         </button>
-        <p>{this.props.votes + this.state.voteChange}</p>
+        <p >{this.props.votes + this.state.voteChange}</p>
         <button
+        className="article-voter-button"
           id={this.props.paraPoint}
           name={"-1"}
           onClick={this.updateVotes}

@@ -13,16 +13,26 @@ const Comments = (props) => {
               id={comment.comment_id}
               key={comment.comment_id}
             >
-              <p>{comment.author}</p>
-              <UserOptions
-                deleteComment={props.deleteComment}
-                comment_id={comment.comment_id}
-                username={props.username}
-                author={comment.author}
-              />
+              <div className="comment-article-list-top">
+                <Votes
+                  id={comment.comment_id}
+                  paraPoint={"comments"}
+                  votes={comment.votes}
+                />
+                <div className="comment-article-list-top-right">
+                <p>{comment.author}</p>
+                <UserOptions
+                  deleteComment={props.deleteComment}
+                  comment_id={comment.comment_id}
+                  username={props.username}
+                  author={comment.author}
+                />
+                </div>
+              </div>
+              <div className="comment-article-list-bottom">
               <p>{comment.body}</p>
-              <p>{comment.created_at}</p>
-              <Votes id={comment.comment_id} paraPoint={"comments"} votes={comment.votes} />
+              <p>at {comment.created_at}</p>
+              </div>
             </li>
           );
         })}
